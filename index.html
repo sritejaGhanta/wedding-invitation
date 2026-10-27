@@ -1318,16 +1318,10 @@ body {
 <button class="nav-arrow-btn" id="btn-prev">
 <span data-en="❮ Previous" data-te="❮ మునుపటి">❮ మునుపటి</span>
 </button>
-<div class="slide-dots" id="slide-dots">
-<!-- Generated dynamically -->
-</div>
-<div style="display: flex; align-items: center; gap: 12px;">
-<button class="ctrl-btn lang-toggle-btn" id="btn-lang-bottom" style="padding: 4px 12px; font-size: 0.82rem; border: 1.5px solid var(--sacred-gold); border-radius: 20px; background: rgba(0,0,0,0.35);" title="Switch Language">🌐 English</button>
-<span class="slide-counter" id="slide-counter">1 / 6</span>
+<button class="ctrl-btn lang-toggle-btn" id="btn-lang-bottom" style="padding: 4px 14px; font-size: 0.82rem; border: 1.5px solid var(--sacred-gold); border-radius: 20px; background: rgba(0,0,0,0.35);" title="Switch Language">🌐 English</button>
 <button class="nav-arrow-btn" id="btn-next">
 <span data-en="Next ❯" data-te="తరువాతి ❯">తరువాతి ❯</span>
 </button>
-</div>
 </footer>
 <script>
 /* =========================================================
@@ -1353,15 +1347,17 @@ document.addEventListener('DOMContentLoaded', () => {
     weddingAudio.volume = 0.7;
   }
 
-  // Initialize dots
-  dotsContainer.innerHTML = '';
-  slides.forEach((_, idx) => {
-    const dot = document.createElement('div');
-    dot.className = `dot ${idx === 0 ? 'active' : ''}`;
-    dot.title = `Slide ${idx + 1}`;
-    dot.addEventListener('click', () => goToSlide(idx));
-    dotsContainer.appendChild(dot);
-  });
+  // Initialize dots (if present)
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.className = `dot ${idx === 0 ? 'active' : ''}`;
+      dot.title = `Slide ${idx + 1}`;
+      dot.addEventListener('click', () => goToSlide(idx));
+      dotsContainer.appendChild(dot);
+    });
+  }
 
   const dots = document.querySelectorAll('.dot');
 
@@ -1381,7 +1377,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dot.classList.toggle('active', idx === currentSlide);
     });
 
-    slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    if (slideCounter) { slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`; }
     btnPrev.disabled = currentSlide === 0;
     btnNext.disabled = currentSlide === totalSlides - 1;
   }
